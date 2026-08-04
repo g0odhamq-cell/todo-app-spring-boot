@@ -1,33 +1,28 @@
-# Todo App - Spring Boot API
+# Todo App — Spring Boot + H2
 
-Мой первый проект созданный на Spring Boot
+Учебный REST API для управления задачами.
 
-## Стек технологий
-- Java
+## Стек
+- Java 21
 - Spring Boot
+- Spring Data JPA
+- H2 (файловая база данных)
 - Maven
 
-## Функционал
-- Получить список всех задач - GET /tasks
-- Создать новую задачу - POST /tasks
-- Отметить задачу как выполненную - PUT /tasks/{id}
-- Удалить задачу - DELETE /tasks/{id}
+## Возможности
+- Получить список задач — `GET /tasks`
+- Создать задачу — `POST /tasks`
+- Отметить задачу выполненной — `PUT /tasks/{id}`
+- Удалить задачу — `DELETE /tasks/{id}`
 
-## Конструкция задачи (JSON)
-```json
-{
-  "id": 1,
-  "title": "Выпить кофе",
-  "done": false,
-  "priority": "HIGH"
-}
-```
-
-## Приоритет
-`priority` имеет 3 значения (LOW, MEDIUM, HIGH), значение можно внести только при создании в конструкторе!
+## Особенности
+- Данные сохраняются в файловой базе H2 (`./data/tododb`)
+- Используется классическая слоистая архитектура: Controller → Service → Repository
+- Валидация входных данных
+- Обработка ошибок (400, 404)
 
 ## Запуск
-- Клонировать репозиторий
-- Открыть в IntelliJ
-- Запустить TodoAppApplication.java
-- Сервер заработает на http://localhost:8080
+1. Клонировать репозиторий
+2. Запустить `TodoAppApplication`
+3. API доступно на http://localhost:8080
+4. H2-консоль: http://localhost:8080/h2-console
