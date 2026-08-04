@@ -1,0 +1,37 @@
+package com.example.todo_app;
+
+public class Task {
+    private int id;
+    private String title;
+    private boolean done;
+    private final Priority priority;
+
+
+    public Task(int id, String title, boolean done, Priority priority) {
+        this.id = id;
+        this.title = title;
+        this.done = done;
+        this.priority = priority;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
+    }
+
+    public Priority getPriority(){
+        return priority;
+    }
+
+}
