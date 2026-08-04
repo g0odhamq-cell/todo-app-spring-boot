@@ -10,52 +10,41 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.NoSuchElementException;
 
+
 @RestController
 public class TaskController {
+    private final TaskService taskService;
 
-    private List<Task> tasks = new ArrayList<>();
-
-    public TaskController() {
-        tasks.add(new Task(1, "Изучить Spring Boot", false, Priority.HIGH));
-        tasks.add(new Task(2, "Сделать первый проект", false, Priority.MEDIUM));
-        tasks.add(new Task(3, "Выпить кофе", false, Priority.LOW));
-    }
+   public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+   }
 
     @GetMapping("/tasks")
     public List<Task> getAllTasks() {
-        return tasks;
+       return taskService.findAll();
     }
 
     @PostMapping("/tasks")
     public Task addTask(@RequestBody Task newTask) {
-        if (newTask.getTitle() == null || newTask.getTitle().trim().isEmpty()) {
-            throw new IllegalArgumentException("Поле названия не может быть пустым!");
-        }
-        tasks.add(newTask);
-        return newTask;
+
+        return taskService.create(newTask.getTitle(), newTask.getPriority());
     }
 
     @PutMapping("/tasks/{id}")
-    public Task updateTask(@PathVariable int id) {
-        for (Task task : tasks) {
-            if (task.getId() == id) {
-                task.setDone(true);
-                return task;
-            }
-        }
-        throw new NoSuchElementException("Задача с id " + id + " не найдена");
+    public Task updateTask(@PathVariable Long id) {
+        return taskService.complete(id);
     }
 
     @DeleteMapping("/tasks/{id}")
-    public String deleteTask(@PathVariable int id) {
-        tasks.removeIf(task -> task.getId() == id);
+    public String deleteTask(@PathVariable Long id) {
+        taskService.delete(id);
         return "Задача " + id + " удалена";
     }
 
